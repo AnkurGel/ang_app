@@ -1,0 +1,74 @@
+.ui.small.fixed.tired.menu id='mainmenu'
+  .menu
+    a.item.down class = deal_active_class('all') href='/deals'
+      /img src = asset_path('browserstack.ico')
+      i.icon.home
+      | Browser
+      strong
+        | Stack
+      span
+        |  CRM
+      .ui.small.label.no_background.stage_count.blacked.no_border_radius data-type='total'
+
+    a.ui.label.item.pointer.activity class=('active' if active_page?('deals', 'activity')) href='/' style='width:8%'
+      / i.icon.tasks
+      | ACTIVITY
+      .ui.small.label.no_background.stage_count.no_border_radius data-type='activity'
+
+    - STAGE_TEXT.select{|k,v| ['WON', 'LOST'].include?(k) }.each do |stage, stage_text|
+      a.ui.label.item.pointer href=deal_list_url(stage.downcase) class=deal_active_class(stage)
+        /i.icon.reorder
+        = stage_text
+        .ui.small.label.no_background.stage_count.no_border_radius data-type=(stage.downcase)
+
+    - dropdown_stages = STAGE_TEXT.reject{|k,v| ['WON', 'LOST'].include?(k) }
+    - dropdown_title = dropdown_stages.keys.include?(params[:stage].try(:upcase)) ? params[:stage].upcase : 'Other Stages'
+    .ui.dropdown.he.link.item.label class=("has-count #{params[:stage].downcase}" if dropdown_title.match(/Stages/).nil?)
+      span #{dropdown_title}
+      - if dropdown_title.match(/Stages/).nil?
+        .ui.small.label.no_background.stage_count.no_border_radius data-type=(params[:stage].downcase)
+      i.dropdown.icon
+      .menu
+        - dropdown_stages.each do |stage, stage_text|
+          a.item.pointer href=deal_list_url(stage.downcase) class=deal_active_class(stage) value=stage
+            = stage
+            .ui.small.label.no_background.stage_count.no_border_radius data-type=(stage.downcase)
+
+    a.ui.label.item.pointer.enterprise class=('active' if active_page?('deals', 'enterprise')) href=deal_enterprise_url style='width:10%'
+      / i.icon.tasks
+      | ENTERPRISE
+      .ui.small.label.no_background.stage_count.no_border_radius data-type='enterprise'
+
+    a.item.right.pointer class = ('active' if any_active_page?([['deals','new'], ['customers', 'new']]) ) href=new_customer_path
+      i.icon.add
+      | Add/Edit
+
+    a.item.right.pointer href=stats_path class=('active' if active_page?('stats', 'index')) data-content='Analytics'
+      i.chart.basic.icon class= ['bar', ''].sample
+      | Stats
+
+    .right.menu.pointer
+      .popup.item.shortcut data-content='Shift+/ to view shortcuts'
+        i.keyboard.icon
+
+  .ui.sub.menu class = ('hide' unless any_active_page?([['deals','new'], ['customers', 'new']]) )
+    / .item
+    /   i.icon.pencil.disabled
+    /   | Create Deal
+    / |
+    a.item.right.pointer class = ('active' if active_page?('deals', 'new')) href=new_deal_path
+      i.icon.inbox
+      | Deal
+    |
+    a.item.right.pointer class = ('active' if active_page?('customers', 'new')) href=new_customer_path
+      i.icon.user
+      | Customer
+
+
+
+
+  / .ui.sub.menu class = ('hide' if current_page?(controller: 'deals', action: 'new'))
+  /   - for stage in STAGES.reverse
+  /     .item.right.pointer
+  /       i.icon.reorder
+  /       = stage

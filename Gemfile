@@ -7,6 +7,7 @@ gem 'mysql2'
 gem 'sass-rails', '~> 4.0.0'
 
 gem 'slim-rails', '~> 2.1.4'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 #gem 'coffee-rails', '~> 4.0.0'
 

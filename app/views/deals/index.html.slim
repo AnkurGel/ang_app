@@ -1,0 +1,15 @@
+.ui.segment ng-controller="TableController"
+  table.ui.celled.table.segment ng-table
+    thead
+      tr
+        th ng-repeat="(key, item) in tableHeaders" 
+          | {{ item }}
+        
+    tbody
+
+      tr ng-repeat=("d in deals")
+        td 
+          | {{ d.name}}
+        td 
+          | {{ d.stage }}
+      

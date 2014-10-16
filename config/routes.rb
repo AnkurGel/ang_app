@@ -1,9 +1,17 @@
 CrmApp::Application.routes.draw do
+  get "deal/index"
+  get "deal/create"
+  get "deal/new"
+  get "deal/destroy"
+  get "deal/show"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  resources :deals
+  resources :customers
+  root 'deals#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
